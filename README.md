@@ -14,4 +14,4 @@ Use the following instructions to set up. *You may need to run some of these com
 
 `python setup.py install`  
 
-`cd ../summabot`
+`cd ../stthomasbot`
