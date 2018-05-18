@@ -25,7 +25,6 @@ reply = "ad."
 ##########
 
 # Program variables
-starttime = calendar.timegm(time.gmtime())
 triggertext = "[*ST*"
 h = html2text.HTML2Text()
 error="error"
@@ -33,12 +32,14 @@ pageext=".htm"
 
 
 # Program functions
+# Returns current timestamp
+def now():
+	return calendar.timegm(time.gmtime())
+
 # Parse the Reddit comment
 def parse(body):
 	# Function variables
 	endtext = "]"
-	titlestartchar = "<h1>"
-	titleendchar = "</h1>"
 	splitby = ","
 
 	# Request made by user
@@ -47,10 +48,18 @@ def parse(body):
 
 # Get the correct excerpt from the Summa
 def getsumma(tokens):
+	# Function Variables
+	titlestartchar = "<h1>"
+	titleendchar = "</h1>"
+
+	# Get the page source back
 	page = getlink(tokens)
 	if page == "error":
 		return "Error Message."
-	return str(page)
+
+	# Grab the question
+	question = "# " + page.split(titlestartchar)[1].split(titleendchar)[0] + "\n\n"
+	return str(question)
 
 # Grab the correct link given the tokens.
 def getlink(tokens):
@@ -108,6 +117,7 @@ reddit = praw.Reddit(user_agent='stthomasbot quotes the Summa',
                   username='stthomasbot',
                   password=f.read())
 subreddit = reddit.subreddit('redditphilosophybots')
+starttime = now()
 
 
 # Main stream
@@ -115,5 +125,8 @@ print("Ready to begin quoting the Summa.")
 for comment in subreddit.stream.comments():
 	if comment.author != reddit.user.me():
 		if triggertext in comment.body and starttime <= comment.created_utc:
-			print("New comment found! Parsing...")
-			comment.reply(parse(comment.body))
+			print("New comment found at " + str(now()))
+			response = parse(comment.body)
+			comment.reply(response)
+			print("Wrote response at " + str(now()))
+			print(response)
