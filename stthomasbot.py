@@ -26,7 +26,7 @@ reply = "ad."
 
 # Program variables
 triggertext = "[*ST*"
-h = html2text.HTML2Text()
+html2text = html2text.HTML2Text()
 error="error"
 pageext=".htm"
 
