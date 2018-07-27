@@ -54,7 +54,7 @@ def getsumma(tokens):
 
 	# Get the page source back
 	page = getlink(tokens)
-	if page == "error":
+	if page == error:
 		return "Error Message."
 
 	# Grab the question
@@ -64,7 +64,6 @@ def getsumma(tokens):
 # Grab the correct link given the tokens.
 def getlink(tokens):
 	link = "http://www.newadvent.org/summa/"
-	question = ""
 	qnum = 0
 
 	# Find Summa Part
