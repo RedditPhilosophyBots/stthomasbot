@@ -1,17 +1,9 @@
 # stthomasbot
 
-## Local Install Instructions  
+## Running the Project
 
-Use the following instructions to set up. *You may need to run some of these commands as an administrator/root*  
+After cloning the reposiitory, simply run `python stthomasbot.py`. The program will run indefinitely.
 
-`git clone &lt;this repo>` 
+## HTML 2 Text
 
-`git clone https://github.com/aaronsw/html2text.git`  
-
-`cd html2text`  
-
-`pip install setuptools`  
-
-`python setup.py install`  
-
-`cd ../stthomasbot`
+The `html2text.py` file is borrowed from [another open source project](https://github.com/aaronsw/html2text). The module converts html to markdown.
