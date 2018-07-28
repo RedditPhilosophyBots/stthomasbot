@@ -1,4 +1,4 @@
-import html2text, urllib2
+import urllib2, html2text
 
 ##########
 # Summa Citation Convention:
@@ -24,8 +24,6 @@ reply = "ad."
 
 # Program variables
 triggertext = "[*ST*"
-html2text = html2text.HTML2Text()
-html2text.ignore_links = True
 error="error"
 pageext=".htm"
 
@@ -57,14 +55,26 @@ def getsumma(tokens):
         return error
 
     # Split on article number and append <h2> to front.
+    articleText = ""
+    print("ArticleText1: " + articleText)
     articleText = "<h2" + questiontext.split(articleSplit  + str(articleNum) + "\"")[1].split(articleSplit)[0]
+    print("ArticleText2: " + articleText)
+
 
     # If posting full article, skip this
     if not len(tokens) == 3:
+        print("\n\nGetting sub part\n\n")
         articleText = "<h2" + questiontext.split(articleSplit  + str(articleNum) + "\"")[1].split(articleHeaderEnd)[0] + getsubpart(articleText, tokens)
 
+    print("ArticleText3: " + articleText)
+
     # Ready question text for reddit posting
-    post = question + html2text.handle(articleText)
+    h = html2text.HTML2Text()
+    h.ignore_links = True
+    post = question + h.handle(articleText)
+    h.close()
+
+    print(post)
 
     return str(post)
 
@@ -130,3 +140,5 @@ def getsubpart(text, tokens):
     elif reply in tokens[3]:
         replynum = tokens[3].split(reply)[1]
         return replystart + str(replynum) + text.split(replystart + replynum)[1].split(nextsub)[0]
+    else:
+        return error

@@ -20,8 +20,8 @@ def parse(body):
 f = open("password.txt", "r")
 passwd=f.read()
 reddit = praw.Reddit(user_agent='stthomasbot quotes the Summa',
-                  client_id='aeEGPm_mikBDAg',
-                  client_secret='cR2cBWWE6BG7eoPA8qSdzf6eCeU',
+                  client_id='OHbO_eTagcWcSA',
+                  client_secret='i0K9lteiBqIVNOdBKBPDPpL64rg',
                   username='stthomasbot',
                   password=passwd)
 subreddit = reddit.subreddit('redditphilosophybots')
@@ -36,6 +36,6 @@ for comment in subreddit.stream.comments():
         if comment.author != username: #reddit.user.me():
             print("New comment found at " + str(now()))
             response = parse(comment.body)
-            print(response)
+            #print(response)
             comment.reply(response)
             print("Wrote response at " + str(now()))
