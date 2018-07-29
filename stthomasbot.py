@@ -1,6 +1,9 @@
 import praw, time, calendar
 from summagetter import *
 
+botname = "stthomasbot"
+iamabot = "\n\n---\n\n^I ^am ^a ^bot ^and ^this ^operation ^was ^performed ^automatically."
+
 # Program functions
 # Returns current timestamp
 def now():
@@ -17,13 +20,7 @@ def parse(body):
     return getsumma(tokens)
 
 # Log in and monitor subs
-f = open("password.txt", "r")
-passwd=f.read()
-reddit = praw.Reddit(user_agent='stthomasbot quotes the Summa',
-                  client_id='OHbO_eTagcWcSA',
-                  client_secret='i0K9lteiBqIVNOdBKBPDPpL64rg',
-                  username='stthomasbot',
-                  password=passwd)
+reddit = praw.Reddit(botname, user_agent='stthomasbot quotes the Summa')
 subreddit = reddit.subreddit('redditphilosophybots')
 starttime = now()
 
@@ -33,9 +30,8 @@ username = reddit.user.me()
 print("Ready to begin quoting the Summa.")
 for comment in subreddit.stream.comments():
     if triggertext in comment.body and starttime <= comment.created_utc:
-        if comment.author != username: #reddit.user.me():
+        if comment.author != username:
             print("New comment found at " + str(now()))
             response = parse(comment.body)
-            #print(response)
-            comment.reply(response)
+            comment.reply(response + iamabot)
             print("Wrote response at " + str(now()))
