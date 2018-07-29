@@ -2,7 +2,7 @@
 
 ## Running the Project
 
-After cloning the reposiitory, simply run `python stthomasbot.py`. The program will run indefinitely.
+After cloning the reposiitory and adding a configured praw.ini, simply run `python stthomasbot.py`. The program will run indefinitely.
 
 ## HTML 2 Text
 
