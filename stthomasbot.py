@@ -1,5 +1,5 @@
 import praw, time, calendar
-from summagetter import *
+from summagetter import getsumma
 
 botname = "stthomasbot"
 iamabot = "\n\n---\n\n^I ^am ^a ^bot ^and ^this ^operation ^was ^performed ^automatically."
