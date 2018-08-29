@@ -50,7 +50,7 @@ In citations, co., arg., ad., and s.c. are optional specifications. Q and A are 
 
 4. Does your question exist?
 
-5. Did you cite the part of the summa correctly?
+5. Did you cite the part of the summa correctly (The supplemental part is only recognized as Suppl., not III-II)?
 
 6. Do you have spaces between the Q and A and their corresponding numbers? Or arg. and ad. and their corresponding numbers?
 
