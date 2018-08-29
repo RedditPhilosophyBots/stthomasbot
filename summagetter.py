@@ -23,7 +23,7 @@ reply = "ad."
 ##########
 
 # Program variables
-triggertext = "[*ST*"
+triggertext = "[ST"
 error="error"
 pageext=".htm"
 
