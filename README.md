@@ -16,7 +16,7 @@ The `html2text.py` file is borrowed from [another open source project](https://g
 
 ## Example Trigger Text
 
-Post a comment to the `/r/redditphilosophybots` subreddit which contains the text `[*ST* I-II, Q3, A2, ad.2]`. This subreddit is intended for bot testing.
+Post a comment to the `/r/redditphilosophybots` subreddit which contains the text `[ST I-II, Q3, A2, ad.2]`. This subreddit is intended for bot testing.
 
 ## Authentication
 
