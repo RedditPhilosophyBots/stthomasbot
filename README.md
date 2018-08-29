@@ -2,7 +2,7 @@
 
 ## What does this do?
 
-The stthomasbot monitors all comments on specified subreddits and responds to any comment containing the trigger text, `[*ST*`, which appears on Reddit as [*ST*
+The stthomasbot monitors all comments on specified subreddits and responds to any comment containing the trigger text, `[ST`, which appears on Reddit as ST
 
 With a *Summa* part, question, and article specified, the bot responds with the appropriate citation. Further refinement of the citation is possible through mentioning the article subsections.
 
