@@ -1,4 +1,4 @@
-import praw, time, calendar
+import praw, time, calendar, sys
 from summagetter import *
 
 botname = "stthomasbot"
@@ -19,19 +19,32 @@ def parse(body):
     tokens = body.split(triggertext, 1)[1].split(endtext, 1)[0].split(splitby)
     return getsumma(tokens)
 
-# Log in and monitor subs
-reddit = praw.Reddit(botname, user_agent='stthomasbot quotes the Summa')
-subreddit = reddit.subreddit('redditphilosophybots')
-starttime = now()
+# Catch any errors and re-authenticate bot
+flag = 1
 
-username = reddit.user.me()
+while 1:
+	try:
+		if flag == 1:
+			flag = 0
+			# Log in and monitor subs
+			reddit = praw.Reddit(botname, user_agent='stthomasbot quotes the Summa')
+			subreddit = reddit.subreddit('redditphilosophybots')
+			starttime = now()
 
-# Main stream
-print("Ready to begin quoting the Summa.")
-for comment in subreddit.stream.comments():
-    if triggertext in comment.body and starttime <= comment.created_utc:
-        if comment.author != username:
-            print("New comment found at " + str(now()))
-            response = parse(comment.body)
-            comment.reply(response + iamabot)
-            print("Wrote response at " + str(now()))
+			username = reddit.user.me()
+
+			# Main stream
+			print("Ready to begin quoting the Summa.")
+			for comment in subreddit.stream.comments():
+				if triggertext in comment.body and starttime <= comment.created_utc:
+					if comment.author != username:
+						print("New comment found at " + str(now()))
+						response = parse(comment.body)
+						comment.reply(response + iamabot)
+						print("Wrote response at " + str(now()))
+	except KeyboardInterrupt:
+		print("Exiting...")
+		sys.exit()
+	except:
+		print("There was an error. Restarting...")
+		flag = 1
