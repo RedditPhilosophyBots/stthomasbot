@@ -1,3 +1,4 @@
+err.log.txt
 *.pyc
-.idea
+log.txt
 praw.ini
