@@ -38,9 +38,9 @@ def getsumma(tokens):
     articleHeaderEnd = "</h2>"
     errormessage = """# Uh oh, something went wrong. Check your formatting. Your text should match the following convention:
 
-[*ST* I, Q2, A3, co.]
+[ST I, Q2, A3, co.]
 
-In citations, co., arg., ad., and s.c. are optional specifications. Q and A are required. This means that [*ST* I, Q2, A3] is a valid citation.
+In citations, co., arg., ad., and s.c. are optional specifications. Q and A are required. This means that [ST I, Q2, A3] is a valid citation.
 
 1. Double check that you've referred to a valid part of the Summa.
 
@@ -56,7 +56,7 @@ In citations, co., arg., ad., and s.c. are optional specifications. Q and A are 
 
 7. Are you trying to cite an entire article longer than 10,000 characters (Reddit will not allow this)?
 
-Message /u/jared_dembrun if you think this message was my fault and not due to formatting. Please include a link to your comment in the message, but [please don't lie](https://i.pinimg.com/originals/73/d6/93/73d693021693ef9c1119db4079717321.jpg)."""
+[Message /u/jared_dembrun](https://www.reddit.com/message/compose/?to=jared_dembrun&subject=StThomasBot) if you think this message was my fault and not due to formatting. Please include a link to your comment in the message, but [please don't lie](https://i.pinimg.com/originals/73/d6/93/73d693021693ef9c1119db4079717321.jpg)."""
 
     # Return an error if we run into an exception instead of completing without error.
     try:
