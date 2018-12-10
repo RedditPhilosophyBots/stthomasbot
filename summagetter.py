@@ -28,7 +28,7 @@ error="error"
 pageext=".htm"
 
 # Get the correct excerpt from the Summa
-def getsumma(tokens):
+def getsumma(listOfTokenSets):
     # Function Variables
     titlestartchar = "<h1>"
     titleendchar = "</h1>"
@@ -54,61 +54,64 @@ In citations, co., arg., ad., and s.c. are optional specifications. Q and A are 
 
 6. Do you have spaces between the Q and A and their corresponding numbers? Or arg. and ad. and their corresponding numbers?
 
-7. Are you trying to cite an entire article longer than 10,000 characters (Reddit will not allow this)?
-
 [Message /u/jared_dembrun](https://www.reddit.com/message/compose/?to=jared_dembrun&subject=StThomasBot) if you think this message was my fault and not due to formatting. Please include a link to your comment in the message, but [please don't lie](https://i.pinimg.com/originals/73/d6/93/73d693021693ef9c1119db4079717321.jpg)."""
 
-    # Return an error if we run into an exception instead of completing without error.
-    try:
-        # Get the page source back
-        page = getlink(tokens)
-        if page == error:
-            print("Error getting link.")
-            return errormessage
+    post = ""
 
-        # Grab the question
-        question = "# " + page.split(titlestartchar)[1].split(titleendchar)[0] + "\n\n"
+    for tokenSet in listOfTokenSets:
 
-        # Grab the question text
-        questiontext = page.split(questionstartchar)[1].split(questionendchar)[0]
-
-        # Get the article
-        if "A" in tokens[2]:
-            articleNum = tokens[2].split("A")[1]
-        else:
-            print("No specified article: not allowed.")
-            return errormessage
-
-        # Split on article number and append <h2> to front.
-        articleText = ""
-        articleText = "<h2" + questiontext.split(articleSplit  + str(articleNum) + "\"")[1].split(articleSplit)[0]
-
-
-        # If posting full article, skip this
-        if not len(tokens) == 3:
-            subsection = getsubsection(articleText, tokens)
-            if subsection == error:
-                print("Error on subsection.")
+        # Return an error if we run into an exception instead of completing without error.
+        try:
+            # Get the page source back
+            page = getlink(tokenSet)
+            if page == error:
+                print("Error getting link.")
                 return errormessage
+
+            # Grab the question
+            question = "# " + page.split(titlestartchar)[1].split(titleendchar)[0] + "\n\n"
+
+            # Grab the question text
+            questiontext = page.split(questionstartchar)[1].split(questionendchar)[0]
+
+            # Get the article
+            if "A" in tokenSet[2]:
+                articleNum = tokenSet[2].split("A")[1]
             else:
-                articleText = "<h2" + questiontext.split(articleSplit  + str(articleNum) + "\"")[1].split(articleHeaderEnd)[0] + subsection
+                print("No specified article: not allowed.")
+                return errormessage
 
-        # Ready question text for reddit posting
-        h = html2text.HTML2Text()
-        h.ignore_links = True
-        post = question + h.handle(articleText)
-        h.close()
+            # Split on article number and append <h2> to front.
+            articleText = ""
+            articleText = "<h2" + questiontext.split(articleSplit  + str(articleNum) + "\"")[1].split(articleSplit)[0]
 
-        # Only return if the length of the post is short enough
-        if len(post) < 10000:
-            return str(post)
-        else:
-            print("Message too long: " + str(len(post)) + " characters")
+
+            # If posting full article, skip this
+            if not len(tokenSet) == 3:
+                subsection = getsubsection(articleText, tokenSet)
+                if subsection == error:
+                    print("Error on subsection.")
+                    return errormessage
+                else:
+                    articleText = "<h2" + questiontext.split(articleSplit  + str(articleNum) + "\"")[1].split(articleHeaderEnd)[0] + subsection
+
+            # Ready question text for reddit posting
+            h = html2text.HTML2Text()
+            h.ignore_links = True
+            post += question + h.handle(articleText)
+            h.close()
+
+        except:
+            traceback.print_exc()
+            print("End of error traceback\n\n")
             return errormessage
-    except:
-        traceback.print_exc()
-        print("End of error traceback\n\n")
-        return errormessage
+
+    # Only return if the length of the post is short enough
+    if len(post) < 10000:
+        return str(post)
+    else:
+        print("Message too long: " + str(len(post)) + " characters")
+        return str(post)[:9500] + "\n\nUh oh!  Reddit's 10,000 character comment limit has been reached!  [Message /u/jared_dembrun](https://www.reddit.com/message/compose/?to=jared_dembrun&subject=StThomasBot) if you think this message was my fault and not due to formatting. Please include a link to your comment in the message, but [please don't lie](https://i.pinimg.com/originals/73/d6/93/73d693021693ef9c1119db4079717321.jpg)."
 
 # Grab the correct link given the tokens.
 def getlink(tokens):
