@@ -5,4 +5,3 @@ In order of importance, the following are on the list for future releases
 3. St. Thomas Bot can cite the Summa Contra Gentiles with the tagline 'SCG' in addition to the Summa Theologiae with 'ST'
 4. St. Thomas Bot can split longer requests into multiple chained comments (ie, replying to himself with the second comment)
 5. St. Thomas Bot can respond to one comment with multiple citations (should the comment contain multiple citations)
-6. Change *ST* in error message to ST (ie, without astericks to make it italicized)
