@@ -19,7 +19,7 @@ def parse(body):
     listOfTokenSets = list()
     while triggertext in body:
         tokens = body.split(triggertext, 1)[1].split(endtext, 1)[0].split(splitby)
-        listOfTokenSets.add(tokens)
+        listOfTokenSets.append(tokens)
         body = body.split(triggertext, 1)[1].split(endtext, 1)[1]
     return getsumma(listOfTokenSets)
 
