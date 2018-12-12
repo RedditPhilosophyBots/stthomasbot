@@ -3,6 +3,8 @@ from summagetter import *
 
 botname = "stthomasbot"
 iamabot = "\n\n---\n\n^I ^am ^a ^bot ^and ^this ^operation ^was ^performed ^automatically."
+mysubs = "redditphilosophybots+catholicism"
+dev = 1
 
 # Program functions
 # Returns current timestamp
@@ -31,8 +33,13 @@ while 1:
         if flag == 1:
             flag = 0
             # Log in and monitor subs
+            subreddit = ""
             reddit = praw.Reddit(botname, user_agent='stthomasbot quotes the Summa')
-            subreddit = reddit.subreddit('redditphilosophybots')
+            if dev == 1:
+                subreddit = reddit.subreddit('redditphilosophybots')
+            else:
+                print(mysubs)
+                subreddit = reddit.subreddit(mysubs)
             starttime = now()
 
             username = reddit.user.me()
