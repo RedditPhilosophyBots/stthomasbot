@@ -6,6 +6,8 @@ The stthomasbot monitors all comments on specified subreddits and responds to an
 
 With a *Summa* part, question, and article specified, the bot responds with the appropriate citation. Further refinement of the citation is possible through mentioning the article subsections.
 
+See the [Wiki](https://github.com/RedditPhilosophyBots/stthomasbot/wiki/Intended-Use) for detailed use information.
+
 ## Running the Project
 
 After cloning the reposiitory and adding a configured praw.ini, simply run `python stthomasbot.py`. The program will run indefinitely.
