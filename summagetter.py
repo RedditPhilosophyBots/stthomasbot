@@ -23,7 +23,7 @@ reply = "ad."
 ##########
 
 # Program variables
-triggertext = "[ST"
+triggertexts = ["[ST", "[SCG", "[straw"]
 error="error"
 pageext=".htm"
 
@@ -63,43 +63,50 @@ In citations, co., arg., ad., and s.c. are optional specifications. Q and A are 
         # Return an error if we run into an exception instead of completing without error.
         try:
             # Get the page source back
-            page = getlink(tokenSet)
-            if page == error:
-                print("Error getting link.")
-                return errormessage
-
-            # Grab the question
-            question = "# " + page.split(titlestartchar)[1].split(titleendchar)[0] + "\n\n"
-
-            # Grab the question text
-            questiontext = page.split(questionstartchar)[1].split(questionendchar)[0]
-
-            # Get the article
-            if "A" in tokenSet[2]:
-                articleNum = tokenSet[2].split("A")[1]
-            else:
-                print("No specified article: not allowed.")
-                return errormessage
-
-            # Split on article number and append <h2> to front.
-            articleText = ""
-            articleText = "<h2" + questiontext.split(articleSplit  + str(articleNum) + "\"")[1].split(articleSplit)[0]
-
-
-            # If posting full article, skip this
-            if not len(tokenSet) == 3:
-                subsection = getsubsection(articleText, tokenSet)
-                if subsection == error:
-                    print("Error on subsection.")
+            if tokenSet[0] == "[ST":
+                tokenSet = tokenSet[1:]
+                page = getSummaTheologicalLink(tokenSet)
+                if page == error:
+                    print("Error getting link.")
                     return errormessage
-                else:
-                    articleText = "<h2" + questiontext.split(articleSplit  + str(articleNum) + "\"")[1].split(articleHeaderEnd)[0] + subsection
 
-            # Ready question text for reddit posting
-            h = html2text.HTML2Text()
-            h.ignore_links = True
-            post += question + h.handle(articleText)
-            h.close()
+                # Grab the question
+                question = "# " + page.split(titlestartchar)[1].split(titleendchar)[0] + "\n\n"
+
+                # Grab the question text
+                questiontext = page.split(questionstartchar)[1].split(questionendchar)[0]
+
+                # Get the article
+                if "A" in tokenSet[2]:
+                    articleNum = tokenSet[2].split("A")[1]
+                else:
+                    print("No specified article: not allowed.")
+                    return errormessage
+
+                # Split on article number and append <h2> to front.
+                articleText = ""
+                articleText = "<h2" + questiontext.split(articleSplit  + str(articleNum) + "\"")[1].split(articleSplit)[0]
+
+
+                # If posting full article, skip this
+                if not len(tokenSet) == 3:
+                    subsection = getsubsection(articleText, tokenSet)
+                    if subsection == error:
+                        print("Error on subsection.")
+                        return errormessage
+                    else:
+                        articleText = "<h2" + questiontext.split(articleSplit  + str(articleNum) + "\"")[1].split(articleHeaderEnd)[0] + subsection
+
+                # Ready question text for reddit posting
+                h = html2text.HTML2Text()
+                h.ignore_links = True
+                post += question + h.handle(articleText)
+                h.close()
+            elif tokenSet[0] == "[SCG":
+                page = getSummaContraGentilesLink(tokenSet[1:])
+                post += page
+            elif tokenSet[0] == "[straw":
+                post += ">I adjure you by the living almighty God, and by the faith you have in our order, and by charity that you strictly promise me you will never reveal in my lifetime what I tell you. Everything that I have written seems like straw to me compared to those things that I have seen and have been revealed to me. - Thomas Aquinas, December 6, AD 1273\n\n"
 
         except:
             traceback.print_exc()
@@ -114,7 +121,7 @@ In citations, co., arg., ad., and s.c. are optional specifications. Q and A are 
         return str(post)[:9500] + "\n\nUh oh!  Reddit's 10,000 character comment limit has been reached!  [Message /u/jared_dembrun](https://www.reddit.com/message/compose/?to=jared_dembrun&subject=StThomasBot) if you think this message was my fault and not due to formatting. Please include a link to your comment in the message, but [please don't lie](https://i.pinimg.com/originals/73/d6/93/73d693021693ef9c1119db4079717321.jpg)."
 
 # Grab the correct link given the tokens.
-def getlink(tokens):
+def getSummaTheologicalLink(tokens):
     link = "http://www.newadvent.org/summa/"
     qnum = 0
 
@@ -138,23 +145,22 @@ def getlink(tokens):
     else:
         return error
     qnum = int(question)
-    if qnum < 1:
+    if qnum < 1 or qnum > 999:
         return error
-    elif qnum < 10:
-        link = link + "00" + str(qnum) + pageext
-    elif qnum < 100:
-        link = link + "0" + str(qnum) + pageext
     else:
-        link = link + str(qnum) + pageext
+        link = link + '{0:03}'.format(qnum) + pageext #format qnum as a zero-padded string of width 3
 
     # Grab link
     print("Getting: " + link)
-    response = urllib2.urlopen(link)
-    pagesource = response.read()
-    if "404 Not Found" in pagesource:
-        return error
-    else:
+    try:
+        response = urllib2.urlopen(link)
+        pagesource = response.read()
         return pagesource
+    except urllib2.HTTPError as e:
+        if e.code == '404':
+            return "404 error"
+    except Exception as e:
+        return error
 
 def getsubsection(text, tokens):
     objstart = "<p><strong>Objection "
@@ -174,3 +180,6 @@ def getsubsection(text, tokens):
         return replystart + str(replynum) + text.split(replystart + replynum)[1].split(nextsub)[0]
     else:
         return error
+
+def getSummaContraGentilesLink(tokens):
+    return "Sorry, but Summa Contra Gentiles functionality is not yet included\n\n"
