@@ -53,12 +53,13 @@ while 1:
             # Main stream
             print("Ready to begin quoting the Summa.")
             for comment in subreddit.stream.comments():
-                if triggertext in comment.body and starttime <= comment.created_utc:
-                    if comment.author != username:
-                        print("New comment found at " + str(now()))
-                        response = parse(comment.body)
-                        comment.reply(response + iamabot)
-                        print("Wrote response at " + str(now()))
+                for triggertext in triggertexts:
+                    if triggertext in comment.body and starttime <= comment.created_utc:
+                        if comment.author != username:
+                            print("New comment found at " + str(now()))
+                            response = parse(comment.body)
+                            comment.reply(response + iamabot)
+                            print("Wrote response at " + str(now()))
     except KeyboardInterrupt:
         print("Exiting...")
         sys.exit()
