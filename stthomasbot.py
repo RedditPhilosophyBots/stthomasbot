@@ -47,9 +47,7 @@ while 1:
                 print(mysubs)
                 subreddit = reddit.subreddit(mysubs)
             starttime = now()
-
             username = reddit.user.me()
-
             # Main stream
             print("Ready to begin quoting the Summa.")
             for comment in subreddit.stream.comments():
@@ -63,6 +61,7 @@ while 1:
     except KeyboardInterrupt:
         print("Exiting...")
         sys.exit()
-    except:
+    except Exception as e:
+	print(e)
         print("There was an error. Restarting...")
         flag = 1
