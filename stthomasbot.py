@@ -26,6 +26,7 @@ def parse(body):
     # a recursive function
         tempbody = body
         while triggertext in tempbody:
+            triggertext = triggertext.translate(None, '\\')
             tokens = [triggertext] + tempbody.split(triggertext, 1)[1].split(endtext, 1)[0].split(splitby)
             listOfTokenSets.append(tokens)
             tempbody = tempbody.split(triggertext, 1)[1].split(endtext, 1)[1]
