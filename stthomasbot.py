@@ -26,6 +26,7 @@ def parse(body):
     # a recursive function
         tempbody = body
         while triggertext in tempbody:
+            triggertext = triggertext.translate(None, '\\')
             tokens = [triggertext] + tempbody.split(triggertext, 1)[1].split(endtext, 1)[0].split(splitby)
             listOfTokenSets.append(tokens)
             tempbody = tempbody.split(triggertext, 1)[1].split(endtext, 1)[1]
@@ -47,9 +48,7 @@ while 1:
                 print(mysubs)
                 subreddit = reddit.subreddit(mysubs)
             starttime = now()
-
             username = reddit.user.me()
-
             # Main stream
             print("Ready to begin quoting the Summa.")
             for comment in subreddit.stream.comments():
@@ -63,6 +62,7 @@ while 1:
     except KeyboardInterrupt:
         print("Exiting...")
         sys.exit()
-    except:
+    except Exception as e:
+	print(e)
         print("There was an error. Restarting...")
         flag = 1
