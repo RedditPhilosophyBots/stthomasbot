@@ -1,6 +1,4 @@
 In order of importance, the following are on the list for future releases
 
-1. A bash script is added to restart St. Thomas Bot should he crash
-2. St. Thomas Bot can cite the Summa Contra Gentiles with the tagline 'SCG' in addition to the Summa Theologiae with 'ST'
-3. St. Thomas Bot can split longer requests into multiple chained comments (ie, replying to himself with the second comment)
-4. Various Easter Eggs, like [straw] => Aquinas' famous quote about his writings being straw.
+1. St. Thomas Bot can cite the Summa Contra Gentiles with the tagline 'SCG' in addition to the Summa Theologiae with 'ST'
+2. Various Easter Eggs, like [straw] => Aquinas' famous quote about his writings being straw.
