@@ -55,10 +55,15 @@ while 1:
                 for triggertext in triggertexts:
                     if triggertext in comment.body and starttime <= comment.created_utc:
                         if comment.author != username:
+                            time.sleep(5)
                             print("New comment found at " + str(now()))
                             response = parse(comment.body)
-                            comment.reply(response + iamabot)
-                            print("Wrote response at " + str(now()))
+                            for res in response:
+                                #time.sleep(2)
+                                print(str(len(res)))
+                                comment = comment.reply(res + iamabot)
+                                print("Wrote response at " + str(now()))
+                            print("Finished full quote at at " + str(now()) + ". Ready to begin quoting the Summa.")
     except KeyboardInterrupt:
         print("Exiting...")
         sys.exit()

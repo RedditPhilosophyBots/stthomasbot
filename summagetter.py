@@ -113,12 +113,24 @@ In citations, co., arg., ad., and s.c. are optional specifications. Q and A are 
             print("End of error traceback\n\n")
             return errormessage
 
-    # Only return if the length of the post is short enough
-    if len(post) < 10000:
-        return str(post)
+    return breakuppostlen(post)
+
+
+def breakuppostlen(post):
+    chunk = 9500
+    reply = list()
+    if len(post) < chunk:
+        reply.append(str(post))
+        return reply
     else:
-        print("Message too long: " + str(len(post)) + " characters")
-        return str(post)[:9500] + "\n\nUh oh!  Reddit's 10,000 character comment limit has been reached!  [Message /u/jared_dembrun](https://www.reddit.com/message/compose/?to=jared_dembrun&subject=StThomasBot) if you think this message was my fault and not due to formatting. Please include a link to your comment in the message, but [please don't lie](https://i.pinimg.com/originals/73/d6/93/73d693021693ef9c1119db4079717321.jpg)."
+        print("Message too long, breaking into multiple comments")
+        for i in range(0, ((len(post)/chunk)+1)):
+            print(str(i) + "th break")
+            reply.append(post[:chunk])
+            post = post[chunk:]
+            print("Length of next chunk = " + str(len(post)))
+        return reply
+
 
 # Grab the correct link given the tokens.
 def getSummaTheologicalLink(tokens):
