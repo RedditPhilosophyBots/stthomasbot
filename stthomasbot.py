@@ -72,6 +72,6 @@ while 1:
         print("Exiting...")
         sys.exit()
     except Exception as e:
-	    print(e)
+        print(e)
         print("There was an error. Restarting...")
         flag = 1
