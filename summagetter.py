@@ -1,4 +1,4 @@
-import urllib2, html2text, traceback
+import urllib.request, html2text, traceback
 
 ##########
 # Summa Citation Convention:
@@ -165,7 +165,7 @@ def getSummaTheologicalLink(tokens):
     # Grab link
     print("Getting: " + link)
     try:
-        response = urllib2.urlopen(link)
+        response = urllib.request.urlopen(link)
         pagesource = response.read()
         return pagesource
     except urllib2.HTTPError as e:
